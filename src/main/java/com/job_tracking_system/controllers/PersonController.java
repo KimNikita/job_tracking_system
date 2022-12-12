@@ -20,13 +20,13 @@ public class PersonController {
     PersonJpaRepository personJpaRepository;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
     ResponseEntity<?> getAllPersons() {
         return ResponseEntity.ok().body(personJpaRepository.findAll().stream().map(PersonMapper::EntityToDto));
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
     ResponseEntity<?> getPersonById(@PathVariable("id") long id) {
         Person person = personJpaRepository.findById(id).orElseThrow(() -> new PersonNotFoundException("No such person with ID: " + id));
         return ResponseEntity.ok().body(new UserInfoResponse(person.getId(),
@@ -35,7 +35,7 @@ public class PersonController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<?> deletePerson(@PathVariable("id") long id) {
         Person person = personJpaRepository.findById(id)
                 .orElseThrow(() -> new PersonNotFoundException("No Person with ID : " + id));
