@@ -54,7 +54,7 @@
 </head>
 
 <body>
-    <form action="/signin" method="POST">
+    <form action="http://localhost:8080/api/auth/signin" method="POST">
         <fieldset class="boxBody">
             <div>
                 <label for="login">Логин:</label>
@@ -67,7 +67,7 @@
             </div>
             <br>
             <div>
-                <input type="submit" value="Войти">
+                <input type="submit" value="Войти" id = "but">
             </div>
         </fieldset>
     </form>
