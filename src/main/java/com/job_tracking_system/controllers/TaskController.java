@@ -35,20 +35,20 @@ public class TaskController {
     JwtUtils jwtUtils;
 
     @GetMapping
-    @PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
     ResponseEntity<?> getAllTasks() {
         return ResponseEntity.ok().body(taskJpaRepository.findAll().stream().map(TaskMapper::EntityToDto));
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
     public ResponseEntity<?> getTaskById(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(TaskMapper.EntityToDto(taskJpaRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("No task with id: " + id))));
     }
 
     @PostMapping(value = "/create")
-    @PreAuthorize("hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('MANAGER')")
     ResponseEntity<?> createTask(@Valid @RequestBody TaskUploadRequest taskUploadRequest) {
         Task task = new Task().setName(taskUploadRequest.getName())
                 .setDifficulty(taskUploadRequest.getDifficulty())
@@ -60,7 +60,7 @@ public class TaskController {
 
     //1 Ассайн таски на имплементера с изменением статуса и началом отсчета времени выполнения(если было null раньше)
     @PostMapping(value = "/assign")
-    @PreAuthorize("hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('MANAGER')")
     ResponseEntity<?> assignTask(@Valid @RequestBody TaskAssignRequest taskAssignRequest) {
         Task task = taskJpaRepository.findById(taskAssignRequest.getId())
                 .orElseThrow(() -> new TaskNotFoundException("No task with id: " + taskAssignRequest.getId()));
@@ -71,7 +71,7 @@ public class TaskController {
     }
 
     @PostMapping(value = "/work")
-    @PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('IMPLEMENTER') or hasRole('MANAGER')")
     ResponseEntity<?> beginTask(@Valid @RequestBody TaskAssignRequest taskAssignRequest) {
         Task task = taskJpaRepository.findById(taskAssignRequest.getId())
                 .orElseThrow(() -> new TaskNotFoundException("No task with id: " + taskAssignRequest.getId()));
@@ -83,7 +83,7 @@ public class TaskController {
 
     //Сам на себя ассайн таски имплементером
     @PutMapping(value = "/assign")
-    @PreAuthorize("hasRole('IMPLEMENTER')")
+    //@PreAuthorize("hasRole('IMPLEMENTER')")
     ResponseEntity<?> assignImplementerSelfTask(@Valid RequestEntity<TaskAssignRequest> requestEntity) {
         if (!jwtUtils.getUserNameFromJwtToken(requestEntity.getHeaders().get("cookie")
                         .stream().findFirst().get().substring(6))
@@ -104,7 +104,7 @@ public class TaskController {
 
     //2 Смена статуса задачи на complete и регистрация времени окончания работы над задачей
     @PostMapping(value = "/complete")
-    @PreAuthorize("hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('MANAGER')")
     ResponseEntity<?> completeTask(@Valid @RequestBody TaskCompleteRequest taskCompleteRequest) {
         Task task = taskJpaRepository.findById(taskCompleteRequest.getId())
                 .orElseThrow(() -> new TaskNotFoundException("No task with id: " + taskCompleteRequest.getId()));
@@ -117,7 +117,7 @@ public class TaskController {
 
     //3 Смена полей в задаче сложности/описания/названия
     @PutMapping(value = "/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('MANAGER')")
     ResponseEntity<?> updateTask(@PathVariable("id") long id, @Valid @RequestBody TaskUploadRequest taskUploadRequest) {
         Task task = taskJpaRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("No task with id: " + id));
         task.setName(taskUploadRequest.getName())
@@ -129,7 +129,7 @@ public class TaskController {
 
     //Удалить задачу
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
+    //@PreAuthorize("hasRole('MANAGER')")
     ResponseEntity<?> deleteTask(@PathVariable("id") long id) {
         Task task = taskJpaRepository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("No task with ID : " + id));
