@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manager</title>
+    <link rel="stylesheet" href="table.css">
+    <style>
+        ul.menu {
+            margin: 0; /* Обнуляем значение отступов */
+            padding: 4px; /* Значение полей */
+        }
+        ul.menu li {
+            display: inline; /* Отображать как строчный элемент */
+            margin-right: 5px; /* Отступ слева */
+            border: 1px solid #000; /* Рамка вокруг текста */
+            padding: 3px; /* Поля вокруг текста */
+            cursor: pointer;
+        }
+        div.buttons input{
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <nav>
+            <ul class="menu">
+                <li id="tasks_page">Tasks</li>
+                <li id="implementers_page"><u>Implementers</u></li>
+                <li id="salary_page">Salary</li>
+            </ul>
+        </nav>
+    </div>
+    <br>
+    <div class="buttons">
+        <input type="submit" id="update" value="Update Info">
+        <input type="submit" id="assign" value="Assign Task">
+        <input type="submit" id="create" value="Create Task">
+    </div>
+    <br>
+    <table id="table">
+        <thead>
+            <tr>
+                <td style="width: 25%">Implementer</td>
+                <td style="width: 25%">Position</td>
+                <td style="width: 50%">Tasks</td>
+            </tr>
+        </thead>
+        <tbody id="body">
+
+        </tbody>
+    </table>
+    <script>
+        tasks_page.onclick = function (){
+            alert(this.innerHTML);
+            return false;
+        }
+        implementers_page.onclick = function (){
+            alert(this.innerHTML);
+            return false;
+        }
+        salary_page.onclick = function (){
+            alert(this.innerHTML);
+            return false;
+        }
+        update.onclick = function () {
+            let req = new XMLHttpRequest();
+            req.open("POST", "/update", true);
+            req.send('');
+            return false;
+        }
+    </script>
+</body>
