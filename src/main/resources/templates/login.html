@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=NbhkWsZN_k9E8nridzr2gXzDtZSSiVi2NaH7fo4VeCMduF33JnBzHAiAvcLpLMwRfW3cK2TOy0z_IJwGlQ7_RJxkBo4adcd2i2aLWDtgHIAYOIY1N9N1w2gaZZEMuqX0slSN6JYSjQTH-DBI1ilOmg" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvMTAyNTMyMjczNTIxMzIyODEzNy8xMDQ5Mjc0NzYwNjA3MDU1OTA0L3NpZ25pbi5odG1s"/><style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <style>
         form {
             /* Расположим форму по центру страницы */
             margin: auto;
@@ -54,7 +55,7 @@
 </head>
 
 <body>
-    <form action="http://localhost:8080/api/auth/signin" method="POST">
+    <form>
         <fieldset class="boxBody">
             <div>
                 <label for="login">Логин:</label>
@@ -67,9 +68,39 @@
             </div>
             <br>
             <div>
-                <input type="submit" value="Войти" id = "but">
+                <input type="submit" value="Войти" id = "button">
             </div>
         </fieldset>
     </form>
+    <script>
+        button.onclick=function (){
+            $.ajax({
+                url: "/signin",
+                type: "POST",
+                data: JSON.stringify({
+                    login: this.elements.login.value,
+                    password: this.elements.password.value
+                }),
+                success: function (response){
+                    console.log(response);
+                },
+                error: function (err){
+                    console.log(err);
+                }
+            });
+            /*
+            let req = new XMLHttpRequest();
+            req.open("POST", "/signin", true);
+            req.send(JSON.stringify({ login: this.elements.login.value, password: this.elements.password.value}));
+            req.onload = function() {
+                alert(`Загружено: ${req.status} ${req.response}`);
+            };
 
+            req.onerror = function() { // происходит, только когда запрос совсем не получилось выполнить
+                alert(`Ошибка соединения`);
+            };
+            */
+        }
+
+    </script>
 </body>

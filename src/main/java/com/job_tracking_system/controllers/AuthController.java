@@ -43,7 +43,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String getLoginPage() {
         return "login";
     }
